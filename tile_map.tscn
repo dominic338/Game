@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://ci5dm6q0fobkk"]
+
+[sub_resource type="TileSet" id="TileSet_2ui2d"]
+resource_local_to_scene = true
+tile_size = Vector2i(18, 18)
+physics_layer_0/collision_layer = 1
+
+[node name="TileMap" type="TileMap"]
+texture_filter = 1
+position = Vector2(18, 18)
+tile_set = SubResource("TileSet_2ui2d")
+format = 2

@@ -1,0 +1,137 @@
+[gd_scene load_steps=20 format=3 uid="uid://ko5g8awgseu1"]
+
+[ext_resource type="Script" path="res://coin.gd" id="1_kpu83"]
+[ext_resource type="Texture2D" uid="uid://dqhiuurjjvf4f" path="res://asset/pixel-platformer/Tilemap/tilemap_packed.png" id="2_ig80c"]
+[ext_resource type="Texture2D" uid="uid://1pytrt3j5ytu" path="res://asset/smoke/Free Smoke Fx Pixel 2/Free Smoke Fx  Pixel 07.png" id="2_xtppc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ejrp2"]
+atlas = ExtResource("2_xtppc")
+region = Rect2(0, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ypwx"]
+atlas = ExtResource("2_xtppc")
+region = Rect2(64, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_padoi"]
+atlas = ExtResource("2_xtppc")
+region = Rect2(128, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0bna8"]
+atlas = ExtResource("2_xtppc")
+region = Rect2(192, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ccby"]
+atlas = ExtResource("2_xtppc")
+region = Rect2(256, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jqftc"]
+atlas = ExtResource("2_xtppc")
+region = Rect2(320, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ecca"]
+atlas = ExtResource("2_xtppc")
+region = Rect2(384, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1umkg"]
+atlas = ExtResource("2_xtppc")
+region = Rect2(448, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_texgg"]
+atlas = ExtResource("2_xtppc")
+region = Rect2(512, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_53h0t"]
+atlas = ExtResource("2_xtppc")
+region = Rect2(576, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m8xs1"]
+atlas = ExtResource("2_xtppc")
+region = Rect2(640, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_66fle"]
+atlas = ExtResource("2_xtppc")
+region = Rect2(704, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdy88"]
+atlas = ExtResource("2_xtppc")
+region = Rect2(768, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qqfgu"]
+atlas = ExtResource("2_ig80c")
+region = Rect2(198, 126, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_00yck"]
+atlas = ExtResource("2_ig80c")
+region = Rect2(216, 126, 18, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_epcxl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ejrp2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ypwx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_padoi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0bna8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ccby")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jqftc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ecca")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1umkg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_texgg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_53h0t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m8xs1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_66fle")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pdy88")
+}],
+"loop": true,
+"name": &"dust",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qqfgu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_00yck")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="coin" type="Area2D"]
+script = ExtResource("1_kpu83")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_epcxl")
+animation = &"dust"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-2, -6, -5, -3, -5, 3, -2, 6, 3, 6, 5, 3, 5, -3, 2, -6)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://8wxdl5sfjcgd"]
+
+[ext_resource type="Texture2D" uid="uid://dqhiuurjjvf4f" path="res://asset/pixel-platformer/Tilemap/tilemap_packed.png" id="1_41miw"]
+[ext_resource type="Script" path="res://apike.gd" id="1_veogx"]
+
+[node name="Spike" type="Area2D"]
+z_index = 100
+texture_filter = 1
+script = ExtResource("1_veogx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_41miw")
+region_enabled = true
+region_rect = Rect2(144, 54, 18, 18)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-7, 9, -7, 6, -5, 2, -5, 2, -3, 2, -2, 4, -1, 6, 2, 6, 2, 4, 3, 2, 5, 2, 6, 4, 7, 6, 7, 9)
+
+[connection signal="body_entered" from="." to="." method="_on_Spike_body_entered"]

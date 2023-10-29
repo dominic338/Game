@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccbk5daavpwrn"]
+
+[ext_resource type="Texture2D" uid="uid://t3dtoileibbp" path="res://asset/object/ClassicPlatformerAssets/GrassBlockTile/Pre Sliced/grassblocksettile2.png" id="1_3tkus"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bf1wa"]
+size = Vector2(16, 16)
+
+[node name="StaticBody2D" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_3tkus")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bf1wa")

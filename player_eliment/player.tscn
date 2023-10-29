@@ -1,0 +1,126 @@
+[gd_scene load_steps=16 format=3 uid="uid://c8dnw5hdwmjmd"]
+
+[ext_resource type="Texture2D" uid="uid://ds4a0pndie51j" path="res://asset/StickyMan/idle/idle1.png" id="1_yxj2u"]
+[ext_resource type="Texture2D" uid="uid://dqwygnhqstr7g" path="res://asset/StickyMan/idle/idle2.png" id="2_4rtb7"]
+[ext_resource type="Texture2D" uid="uid://d3hk0xkakhb0g" path="res://asset/StickyMan/jump/salto1.png" id="3_j0lpo"]
+[ext_resource type="Texture2D" uid="uid://dgurqws786vvx" path="res://asset/StickyMan/run/corsa1.png" id="4_b4q2n"]
+[ext_resource type="Texture2D" uid="uid://cgekey35uom4w" path="res://asset/StickyMan/run/corsa2.png" id="5_na8k4"]
+[ext_resource type="Texture2D" uid="uid://chc50x2th5jjp" path="res://asset/StickyMan/run/corsa3.png" id="6_8qdc7"]
+
+[sub_resource type="GDScript" id="GDScript_k541e"]
+script/source = "extends CharacterBody2D
+
+
+const SPEED = 100.0
+const JUMP_VELOCITY = -225.0
+
+# Get the gravity from the project settings to be synced with RigidBody nodes.
+var gravity = ProjectSettings.get_setting(\"physics/2d/default_gravity\")
+
+
+func _physics_process(delta):
+	# Add the gravity.
+	if not is_on_floor():
+		velocity.y += gravity * delta
+
+	# Handle Jump.
+	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var direction = Input.get_axis(\"ui_left\", \"ui_right\")
+	if direction:
+		velocity.x = direction * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+	if velocity.x < 0:
+		get_node(\"AnimatedSprite2D\").set_flip_h(true)
+		get_node(\"AnimatedSprite2D\").play(\"run\")
+	elif velocity.x > 0:
+		get_node(\"AnimatedSprite2D\").set_flip_h(false)
+		get_node(\"AnimatedSprite2D\").play(\"run\")
+	else:
+		get_node(\"AnimatedSprite2D\").play(\"idle\")
+	move_and_slide()
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n78as"]
+atlas = ExtResource("1_yxj2u")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1ybq"]
+atlas = ExtResource("2_4rtb7")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8s8rw"]
+atlas = ExtResource("3_j0lpo")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r57tm"]
+atlas = ExtResource("4_b4q2n")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t366a"]
+atlas = ExtResource("5_na8k4")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l6d27"]
+atlas = ExtResource("6_8qdc7")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_76vuh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n78as")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1ybq")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8s8rw")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_r57tm")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_t366a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l6d27")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2qf2n"]
+size = Vector2(10, 16)
+
+[node name="player" type="CharacterBody2D"]
+texture_filter = 1
+script = SubResource("GDScript_k541e")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visibility_layer = 2
+sprite_frames = SubResource("SpriteFrames_76vuh")
+animation = &"run"
+frame_progress = 0.659625
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2qf2n")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
